@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BrewHaven</title>
+  <meta name="description" content="BrewHaven coffee shop website: home, menu, about, contact, reservation." />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --panel:#ffffff;
+      --card:#ffffff;
+      --ink:#a1683c;
+      --muted:#e9b482;
+      --brand:#c28f5c;       /* latte */
+      --brand-2:#7a5230;     /* espresso */
+      --accent:#d7a86e;
+      --good:#47c17b;
+      --bad:#ff6b6b;
+      --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      background: radial-gradient(1200px 800px at 10% -10%, #ffffff 0%, var(--bg) 45%) fixed,
+                  linear-gradient(180deg, #c79768, var(--bg)) fixed;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1200px;margin:0 auto;padding:24px}
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:saturate(130%) blur(8px);
+      background:rgba(15,14,14,.6);border-bottom:1px solid #2a2522;
+    }
+    .nav{
+      display:flex;align-items:center;gap:16px;justify-content:space-between;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.4px}
+    .bean{
+      width:34px;height:34px;border-radius:50%;
+      background:radial-gradient(60% 60% at 40% 35%, #8b5b37, var(--brand-2));
+      box-shadow:inset 0 0 0 2px rgba(0,0,0,.15), 0 6px 16px rgba(0,0,0,.5);
+      position:relative;flex:0 0 34px;
+    }
+    .bean:after{
+      content:"";position:absolute;inset:6px 14px 6px 14px;border-radius:999px;
+      background:linear-gradient(180deg, rgba(0,0,0,.35), rgba(255,255,255,.08));
+    }
+    .nav a.btn{
+      padding:10px 14px;border-radius:999px;background:var(--brand);
+      color:#1b120c;font-weight:700;text-decoration:none;border:1px solid rgba(0,0,0,.2);
+      box-shadow:0 4px 12px rgba(0,0,0,.35);
+    }
+    .links{display:flex;gap:14px;flex-wrap:wrap}
+    .links a{color:var(--muted);font-weight:600}
+    .hero{
+      display:grid;gap:22px;grid-template-columns:1.2fr .8fr;align-items:stretch;margin-top:24px;
+    }
+    @media (max-width:900px){.hero{grid-template-columns:1fr}}
+    .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)) , var(--panel);
+      border:1px solid #29221e;border-radius:var(--radius);box-shadow:var(--shadow);
+      padding:24px;
+    }
+    h1{font-size:clamp(28px, 4vw, 42px);line-height:1.15;margin:0}
+    h2{font-size:clamp(20px, 3vw, 28px);margin:18px 0 10px}
+    h3{font-size:18px;margin:16px 0 8px;color:var(--accent)}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+    @media (max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
+    .kpi{background:var(--card);border:1px solid #2a2522;border-radius:14px;padding:14px}
+    .tag{display:inline-block;padding:4px 10px;border-radius:999px;background:#2b241f;border:1px solid #3a312b;color:var(--muted);font-weight:700;font-size:12px}
+    .grid{display:grid;gap:18px}
+    .two{grid-template-columns:1fr 1fr}
+    .three{grid-template-columns:repeat(3,1fr)}
+    @media (max-width:900px){.two,.three{grid-template-columns:1fr}}
+    ul{margin:0 0 8px 18px}
+    .list-tight li{margin:6px 0}
+    .card{background:var(--card);border:1px solid #2a2522;border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+    .pillbar{display:flex;gap:10px;flex-wrap:wrap}
+    .pill{padding:8px 12px;border-radius:999px;background:#2b241f;border:1px solid #3a312b;color:var(--ink);cursor:pointer}
+    .pill[aria-pressed="true"]{background:var(--brand);color:#1b120c;border-color:#000}
+    .menu{
+      display:grid;gap:12px;grid-template-columns:repeat(2,1fr)
+    }
+    @media (max-width:700px){.menu{grid-template-columns:1fr}}
+    .item{padding:14px;border:1px solid #ffffff;border-radius:12px;background:#221d1a}
+    .item h4{margin:0 0 6px}
+    .price{float:right;color:var(--accent);font-weight:700}
+    form{display:grid;gap:12px}
+    label{font-weight:700}
+    input,select,textarea{
+      width:100%;padding:12px;border-radius:10px;border:1px solid #ffffff;background:#1b1816;color:var(--ink)
+    }
+    .row{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+    @media (max-width:700px){.row{grid-template-columns:1fr}}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;border:1px solid #3a312b;background:var(--brand);color:#20140b;font-weight:800;cursor:pointer
+    }
+    .btn.secondary{background:#ffffff;color:var(--ink)}
+    .helper{font-size:12px;color:var(--muted)}
+    .ok{color:var(--good)} .err{color:var(--bad)}
+    footer{margin:36px 0 12px;color:var(--muted);text-align:center}
+    .sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+  </style>
+</head>
+<body>
+  <!-- Header / Nav -->
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <span class="bean" aria-hidden="true"></span>
+        <span>BrewHaven</span>
+      </div>
+      <nav class="links" aria-label="Primary">
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a class="btn" href="#reserve">Reserve</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Hero / Summary -->
+    <section class="hero">
+      <div class="panel">
+        <span class="tag">Have a sip</span>
+        <h1>Welcome to BrewHaven</h1>
+        <p style="color:var(--muted);margin:10px 0 0">
+          Your neighborhood coffee sanctuary where exceptional coffee meets warm hospitality. Every cup tells a story of <strong>quality</strong>, <strong>community</strong>, and <strong>care</strong>.
+        </p>
+        <div class="kpis">
+          <div class="kpi"><div class="tag">Focus</div><div><strong>Fast, clean UX</strong></div></div>
+          <div class="kpi"><div class="tag">Devices</div><div><strong>Responsive</strong> (mobile → desktop)</div></div>
+          <div class="kpi"><div class="tag">Outcome</div><div><strong>Reservations + Contact</strong> online</div></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>At a Glance</h2>
+        <div class="grid list-tight">
+          <div class="card">
+            <h3>Essentials</h3>
+            <ul class="list-tight">
+              <li>About, hours, location, contact</li>
+              <li>Interactive menu with categories</li>
+              <li>Reservation + contact forms</li>
+              <li>Social media integration</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Quality Bar</h3>
+            <ul class="list-tight">
+              <li>Responsive, modern UI</li>
+              <li>Fast loading</li>
+              <li>Cross-browser compatibility</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+     <!-- Interactive Menu -->
+      <div class="card" style="margin-top:18px">
+        <h3>Menu</h3>
+        <div class="pillbar" role="tablist" aria-label="Menu categories">
+          <button class="pill" role="tab" aria-pressed="true" data-cat="all">All</button>
+          <button class="pill" role="tab" aria-pressed="false" data-cat="hot">Hot Drinks</button>
+          <button class="pill" role="tab" aria-pressed="false" data-cat="cold">Cold Drinks</button>
+          <button class="pill" role="tab" aria-pressed="false" data-cat="pastries">Pastries</button>
+          <button class="pill" role="tab" aria-pressed="false" data-cat="snacks">Snacks</button>
+        </div>
+        <div class="menu" id="menu">
+          <!-- Hot -->
+          <article class="item" data-cat="hot"><h4>Signature (Matcha) Latte <span class="price">$7.25</span></h4><p>Made from finely ground green tea powder whisked with hot water and milk, it has a vibrant green color and earthy, slightly sweet taste.</p></article>
+          <article class="item" data-cat="hot"><h4>Hot Chocolate <span class="price">$3.00</span></h4><p>A sweet, creamy drink made from cocoa powder mixed with milk, often topped with whipped cream or marshmallows.</p></article>
+          <article class="item" data-cat="hot"><h4>Chai Latte <span class="price">$6.25</span></h4><p>A spiced tea made with black tea, steamed milk, and aromatic spices like cinnamon, cardamom, ginger, and cloves.</p></article>
+          <article class="item" data-cat="hot"><h4>Cappuccino <span class="price">$6.25</span></h4><p>A coffee-based drink with equal parts espresso, steamed milk, and frothy milk foam, offering a rich and balanced flavor.</p></article>
+          <article class="item" data-cat="hot"><h4>Mulled Cider <span class="price">$6.50</span></h4><p>Warm apple cider infused with spices such as cinnamon sticks, cloves, and nutmeg—perfect for cold weather.</p></article>
+          <article class="item" data-cat="hot"><h4>Peppermint Tea <span class="price">$6.50</span></h4><p>A caffeine-free herbal tea brewed from peppermint leaves, known for its cooling aroma and soothing digestive properties.</p></article>
+          <!-- Cold -->
+          <article class="item" data-cat="cold"><h4>Iced Latte <span class="price">$6.25</span></h4><p>A refreshing mix of espresso and cold milk poured over ice, smooth and lightly creamy.</p></article>
+          <article class="item" data-cat="cold"><h4>Iced Americano <span class="price">$6.50</span></h4><p>Bold espresso shots diluted with chilled water and ice for a crisp, clean coffee flavor.</p></article>
+          <article class="item" data-cat="cold"><h4>Cold Brew <span class="price">$6.50</span></h4><p>Coffee steeped in cold water for several hours, resulting in a smooth, rich, and less acidic taste.</p></article>
+          <article class="item" data-cat="cold"><h4>Iced Matcha Latte <span class="price">$6.50</span></h4><p>Finely ground green tea whisked with milk and ice, offering an earthy, slightly sweet flavor.</p></article>
+          <article class="item" data-cat="cold"><h4>Iced Chai Latte <span class="price">$6.75</span></h4><p>Black tea infused with warm spices like cinnamon and cardamom, served cold with milk over ice.</p></article>
+          <article class="item" data-cat="cold"><h4>Frappé <span class="price">$6.50</span></h4><p>A blended iced coffee drink, creamy and frothy, often topped with whipped cream or flavored syrup.</p></article>
+          <!-- Pastries -->
+          <article class="item" data-cat="pastries"><h4>Croissant <span class="price">$7.50</span></h4><p>Buttery, flaky French pastry with a light, airy texture and golden layers.</p></article>
+          <article class="item" data-cat="pastries"><h4>Cinnamon Roll <span class="price">$7.50</span></h4><p>Sweet, spiraled dough swirled with cinnamon sugar and topped with icing or glaze.</p></article>
+          <article class="item" data-cat="pastries"><h4>Muffin <span class="price">$3.75</span></h4><p>Soft, moist cake-like treat, often with berries or chocolate chips.</p></article>
+          <article class="item" data-cat="pastries"><h4>Brownie <span class="price">$3.25</span></h4><p>Dense, fudgy chocolate square, rich and chewy.</p></article>
+          <!-- Snacks -->
+          <article class="item" data-cat="snacks"><h4>Avocado Toast <span class="price">$8.75</span></h4><p>Toasted bread topped with smashed avocado and seasoning.</p></article>
+          <article class="item" data-cat="snacks"><h4>Tomato & Mozzarella Panini <span class="price">$8.75</span></h4><p>Grilled sandwich with fresh tomato, basil, and melted mozzarella.</p></article>
+          <article class="item" data-cat="snacks"><h4>Chicken Wrap <span class="price">$8.75</span></h4><p>Soft tortilla filled with chicken, lettuce, and sauce.</p></article>
+          <article class="item" data-cat="snacks"><h4>Stuffed Pretzel <span class="price">$3.75</span></h4><p>Soft pretzel filled with cheese or jalapeños.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo: About / Hours / Location -->
+    <section id="demo" class="panel" aria-labelledby="demo-h">
+      <h2 id="demo-h">About</h2>
+      <div class="grid three">
+        <div class="card">
+          <h3>About BrewHaven</h3>
+          <p>Small-batch roasts, cozy vibes, and pastry partners from local bakers. We believe in thoughtful sourcing and friendly service.</p>
+          <p class="helper">This is placeholder content you can replace with your real copy.</p>
+        </div>
+        <div class="card">
+          <h3>Hours</h3>
+          <ul class="list-tight">
+            <li>Mon–Fri: 7:00 AM – 10:00 PM</li>
+            <li>Sat: 8:00 AM – 5:00 PM</li>
+            <li>Sun: 8:00 AM – 5:00 PM</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Location & Contact</h3>
+          <p>123 Roastery Lane, San Jose, CA.</p>
+          <p>Phone: (555) 123-4567</p>
+          <div class="actions" aria-label="Social media">
+            <a class="btn secondary" href="#" aria-label="Instagram">
+              <!-- simple inline icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm11 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-6 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 .001 6.001A3 3 0 0 0 12 10Z"/></svg>
+              Instagram
+            </a>
+            <a class="btn secondary" href="#" aria-label="Facebook">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 22v-8h3l1-4h-4V7.5c0-1.1.9-2 2-2h2V2h-3a5 5 0 0 0-5 5V10H6v4h3v8h4Z"/></svg>
+              Facebook
+            </a>
+            <a class="btn secondary" href="#" aria-label="X / Twitter">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m3 3 7.5 9.2L3.6 21H6l5.8-6.9 4.5 6.9H21l-7-10 6.6-8h-2.4l-5.5 6.7L8.8 3H3Z"/></svg>
+              X
+            <a class="btn secondary" href="#" aria-label="TikTok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/></svg>
+              Tiktok
+            </a>
+          </div>
+        </div>
+      </div>
+
+       <!-- Contact -->
+    <section id="contact" class="panel">
+      <h2>Contact BrewHaven</h2>
+      <form id="contactForm" novalidate>
+        <div class="row">
+          <div>
+            <label for="cName">Name</label>
+            <input id="cName" name="name" type="text" required />
+            <div class="helper" id="cNameHelp"></div>
+          </div>
+          <div>
+            <label for="cEmail">Email</label>
+            <input id="cEmail" name="email" type="email" required />
+            <div class="helper" id="cEmailHelp"></div>
+          </div>
+        </div>
+        <div>
+          <label for="cMsg">Message</label>
+          <textarea id="cMsg" name="message" rows="4" required minlength="10" placeholder="How can we help?"></textarea>
+          <div class="helper" id="cMsgHelp"></div>
+        </div>
+        <div class="actions">
+          <button class="btn" type="submit">Send Message</button>
+        </div>
+        <p class="helper" id="cStatus" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- Reservation -->
+    <section id="reserve" class="panel">
+      <h2>Reservation</h2>
+      <form id="reservationForm" novalidate>
+        <div class="row">
+          <div>
+            <label for="resName">Full Name</label>
+            <input id="resName" name="name" type="text" placeholder="Alex Bean" required minlength="2" />
+            <div class="helper" id="resNameHelp"></div>
+          </div>
+          <div>
+            <label for="resEmail">Email</label>
+            <input id="resEmail" name="email" type="email" placeholder="alex@example.com" required />
+            <div class="helper" id="resEmailHelp"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="resDate">Date</label>
+            <input id="resDate" name="date" type="date" required />
+            <div class="helper" id="resDateHelp"></div>
+          </div>
+          <div>
+            <label for="resTime">Time</label>
+            <input id="resTime" name="time" type="time" required />
+            <div class="helper" id="resTimeHelp"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="resParty">Party Size</label>
+            <select id="resParty" name="party" required>
+              <option value="">Select…</option>
+              <option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option>
+            </select>
+            <div class="helper" id="resPartyHelp"></div>
+          </div>
+          <div>
+            <label for="resNotes">Notes (optional)</label>
+            <input id="resNotes" name="notes" type="text" placeholder="Window seat, allergy, etc." />
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn" type="submit">Request Reservation</button>
+          <button class="btn secondary" type="reset">Reset</button>
+        </div>
+        <p class="helper" id="resStatus" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> BrewHaven • Built to demonstrate scope, requirements, and benefits for the project.</p>
+    </footer>
+  </main>
+
+  <script>
+    // Current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Menu filtering
+    const tabs = document.querySelectorAll('.pillbar .pill');
+    const items = document.querySelectorAll('.menu .item');
+    tabs.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        tabs.forEach(b=>b.setAttribute('aria-pressed','false'));
+        btn.setAttribute('aria-pressed','true');
+        const cat = btn.dataset.cat;
+        items.forEach(it=>{
+          const show = (cat === 'all') || it.dataset.cat === cat;
+          it.style.display = show ? '' : 'none';
+        });
+      });
+    });
+
+    // Basic form helpers
+    function show(el, msg, ok=false){
+      el.textContent = msg || '';
+      el.className = 'helper ' + (ok ? 'ok' : (msg ? 'err' : ''));
+    }
+
+    // Reservation validation
+    const rForm = document.getElementById('reservationForm');
+    rForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = rForm.resName, email = rForm.resEmail, date = rForm.resDate, time = rForm.resTime, party = rForm.resParty;
+
+      let valid = true;
+      if(!name.value.trim() || name.value.trim().length < 2){ show(resNameHelp,'Please enter your full name.'); valid=false } else { show(resNameHelp,'Looks good!',true) }
+      if(!email.checkValidity()){ show(resEmailHelp,'Enter a valid email.'); valid=false } else { show(resEmailHelp,'✓',true) }
+      if(!date.value){ show(resDateHelp,'Pick a date.'); valid=false } else { show(resDateHelp,'',true) }
+      if(!time.value){ show(resTimeHelp,'Pick a time.'); valid=false } else { show(resTimeHelp,'',true) }
+      if(!party.value){ show(resPartyHelp,'Select party size.'); valid=false } else { show(resPartyHelp,'',true) }
+
+      if(valid){
+        const summary = `Reservation requested for ${name.value} (${email.value}) on ${date.value} at ${time.value} for ${party.value}.`;
+        show(resStatus, summary + " We’ll confirm by email shortly.", true);
+        rForm.reset();
+        tabs[0].focus(); // gentle UX cue
+      } else {
+        show(resStatus, "Please fix the highlighted fields.");
+      }
+    });
+
+    // Contact validation
+    const cForm = document.getElementById('contactForm');
+    cForm.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const name = cForm.cName, email = cForm.cEmail, msg = cForm.cMsg;
+      let valid = true;
+      if(!name.value.trim()){ show(cNameHelp,'Your name is required.'); valid=false } else { show(cNameHelp,'',true) }
+      if(!email.checkValidity()){ show(cEmailHelp,'Enter a valid email.'); valid=false } else { show(cEmailHelp,'',true) }
+      if(!msg.value.trim() || msg.value.trim().length < 10){ show(cMsgHelp,'Message must be at least 10 characters.'); valid=false } else { show(cMsgHelp,'',true) }
+      if(valid){
+        show(cStatus, "Thanks! We’ve received your message and will get back soon.", true);
+        cForm.reset();
+      } else {
+        show(cStatus, "Please complete the required fields.");
+      }
+    });
+  </script>
+</body>
+</html>
