@@ -5,109 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BrewHaven</title>
   <meta name="description" content="BrewHaven coffee shop website: home, menu, about, contact, reservation." />
-  <style>
-    :root{
-      --bg:#ffffff;
-      --panel:#ffffff;
-      --card:#ffffff;
-      --ink:#a1683c;
-      --muted:#e9b482;
-      --brand:#c28f5c;       /* latte */
-      --brand-2:#7a5230;     /* espresso */
-      --accent:#d7a86e;
-      --good:#47c17b;
-      --bad:#ff6b6b;
-      --radius:16px;
-      --shadow:0 10px 30px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--ink);
-      background: radial-gradient(1200px 800px at 10% -10%, #ffffff 0%, var(--bg) 45%) fixed,
-                  linear-gradient(180deg, #c79768, var(--bg)) fixed;
-    }
-    a{color:var(--accent);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:1200px;margin:0 auto;padding:24px}
-    header{
-      position:sticky;top:0;z-index:50;
-      backdrop-filter:saturate(130%) blur(8px);
-      background:rgba(15,14,14,.6);border-bottom:1px solid #2a2522;
-    }
-    .nav{
-      display:flex;align-items:center;gap:16px;justify-content:space-between;
-    }
-    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.4px}
-    .bean{
-      width:34px;height:34px;border-radius:50%;
-      background:radial-gradient(60% 60% at 40% 35%, #8b5b37, var(--brand-2));
-      box-shadow:inset 0 0 0 2px rgba(0,0,0,.15), 0 6px 16px rgba(0,0,0,.5);
-      position:relative;flex:0 0 34px;
-    }
-    .bean:after{
-      content:"";position:absolute;inset:6px 14px 6px 14px;border-radius:999px;
-      background:linear-gradient(180deg, rgba(0,0,0,.35), rgba(255,255,255,.08));
-    }
-    .nav a.btn{
-      padding:10px 14px;border-radius:999px;background:var(--brand);
-      color:#1b120c;font-weight:700;text-decoration:none;border:1px solid rgba(0,0,0,.2);
-      box-shadow:0 4px 12px rgba(0,0,0,.35);
-    }
-    .links{display:flex;gap:14px;flex-wrap:wrap}
-    .links a{color:var(--muted);font-weight:600}
-    .hero{
-      display:grid;gap:22px;grid-template-columns:1.2fr .8fr;align-items:stretch;margin-top:24px;
-    }
-    @media (max-width:900px){.hero{grid-template-columns:1fr}}
-    .panel{
-      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)) , var(--panel);
-      border:1px solid #29221e;border-radius:var(--radius);box-shadow:var(--shadow);
-      padding:24px;
-    }
-    h1{font-size:clamp(28px, 4vw, 42px);line-height:1.15;margin:0}
-    h2{font-size:clamp(20px, 3vw, 28px);margin:18px 0 10px}
-    h3{font-size:18px;margin:16px 0 8px;color:var(--accent)}
-    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
-    @media (max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
-    .kpi{background:var(--card);border:1px solid #2a2522;border-radius:14px;padding:14px}
-    .tag{display:inline-block;padding:4px 10px;border-radius:999px;background:#2b241f;border:1px solid #3a312b;color:var(--muted);font-weight:700;font-size:12px}
-    .grid{display:grid;gap:18px}
-    .two{grid-template-columns:1fr 1fr}
-    .three{grid-template-columns:repeat(3,1fr)}
-    @media (max-width:900px){.two,.three{grid-template-columns:1fr}}
-    ul{margin:0 0 8px 18px}
-    .list-tight li{margin:6px 0}
-    .card{background:var(--card);border:1px solid #2a2522;border-radius:14px;padding:16px;box-shadow:var(--shadow)}
-    .pillbar{display:flex;gap:10px;flex-wrap:wrap}
-    .pill{padding:8px 12px;border-radius:999px;background:#2b241f;border:1px solid #3a312b;color:var(--ink);cursor:pointer}
-    .pill[aria-pressed="true"]{background:var(--brand);color:#1b120c;border-color:#000}
-    .menu{
-      display:grid;gap:12px;grid-template-columns:repeat(2,1fr)
-    }
-    @media (max-width:700px){.menu{grid-template-columns:1fr}}
-    .item{padding:14px;border:1px solid #ffffff;border-radius:12px;background:#221d1a}
-    .item h4{margin:0 0 6px}
-    .price{float:right;color:var(--accent);font-weight:700}
-    form{display:grid;gap:12px}
-    label{font-weight:700}
-    input,select,textarea{
-      width:100%;padding:12px;border-radius:10px;border:1px solid #ffffff;background:#1b1816;color:var(--ink)
-    }
-    .row{display:grid;gap:12px;grid-template-columns:1fr 1fr}
-    @media (max-width:700px){.row{grid-template-columns:1fr}}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{
-      display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;border:1px solid #3a312b;background:var(--brand);color:#20140b;font-weight:800;cursor:pointer
-    }
-    .btn.secondary{background:#ffffff;color:var(--ink)}
-    .helper{font-size:12px;color:var(--muted)}
-    .ok{color:var(--good)} .err{color:var(--bad)}
-    footer{margin:36px 0 12px;color:var(--muted);text-align:center}
-    .sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
-  </style>
+  
+<link rel="stylesheet" href="styles.css">
+
 </head>
 <body>
   <!-- Header / Nav -->
@@ -398,3 +298,5 @@
   </script>
 </body>
 </html>
+
+<script src="script.js" defer></script>
