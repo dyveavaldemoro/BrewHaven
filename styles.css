@@ -86,9 +86,15 @@ header{
 
 /* --------- Sections / Panels --------- */
 .hero{
-  display:grid; gap:22px; grid-template-columns:1.2fr .8fr; align-items:stretch; margin-top:24px;
+  display: block;
+  margin-top: 24px;
 }
-@media (max-width:900px){ .hero{ grid-template-columns:1fr; } }
+
+.kpis {
+  margin-bottom: 32px;
+}
+
+
 
 .panel{
   background:linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), var(--panel);
@@ -200,4 +206,20 @@ textarea:focus-visible { outline: none; box-shadow: var(--focus); }
 /* Elevate panels on hover for pointer devices */
 @media (hover:hover) {
   .card:hover, .panel:hover { transform: translateY(-2px); transition: transform .12s ease; }
+}
+/* add space under the KPI boxes */
+.kpis {
+  margin-bottom: 32px;
+}
+
+.grid.list-tight {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
 }
