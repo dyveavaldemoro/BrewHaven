@@ -224,7 +224,9 @@ textarea:focus-visible { outline: none; box-shadow: var(--focus); }
   border-radius: 12px;
 }
 
-/* Debug: show a subtle outline around every element for layout inspection */
-*, *::before, *::after {
-  outline: 1px solid rgba(0,0,0,0.06);
+/* Emphasize the Customer Favorites cards with a bolder border */
+.grid.list-tight .card {
+  border: 3px solid var(--accent);
+  border-radius: 12px;
 }
+
