@@ -223,3 +223,8 @@ textarea:focus-visible { outline: none; box-shadow: var(--focus); }
   height: auto;
   border-radius: 12px;
 }
+
+/* Debug: show a subtle outline around every element for layout inspection */
+*, *::before, *::after {
+  outline: 1px solid rgba(0,0,0,0.06);
+}
