@@ -159,11 +159,15 @@
         </div>
       </div>
 
-       <!-- Contact -->
+   <!-- Contact -->
     <section id="contact" class="panel">
       <h2>Send us a Message</h2>
       <h4>Have a question or feedback? We'd love to hear from you.</h4>
-      <form id="contactForm" novalidate>
+      <form
+        id="contactForm"
+        action="https://formspree.io/f/xvgnbdaw"
+        method="POST"
+      >
         <div class="row">
           <div>
             <label for="cName">Name</label>
@@ -194,7 +198,11 @@
     <section id="reserve" class="panel">
       <h2>Make a Reservation</h2>
       <h4>Reserve a table for your next visit to BrewHaven</h4>
-      <form id="reservationForm" novalidate>
+      <form
+        id="reservationForm"
+        action="https://formspree.io/f/xvgnbdaw"
+        method="POST"
+      >
         <div class="row">
           <div>
             <label for="resName">Full Name</label>
@@ -254,62 +262,16 @@
     // Menu filtering
     const tabs = document.querySelectorAll('.pillbar .pill');
     const items = document.querySelectorAll('.menu .item');
-    tabs.forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        tabs.forEach(b=>b.setAttribute('aria-pressed','false'));
-        btn.setAttribute('aria-pressed','true');
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabs.forEach(b => b.setAttribute('aria-pressed', 'false'));
+        btn.setAttribute('aria-pressed', 'true');
         const cat = btn.dataset.cat;
-        items.forEach(it=>{
+        items.forEach(it => {
           const show = (cat === 'all') || it.dataset.cat === cat;
           it.style.display = show ? '' : 'none';
         });
       });
-    });
-
-    // Basic form helpers
-    function show(el, msg, ok=false){
-      el.textContent = msg || '';
-      el.className = 'helper ' + (ok ? 'ok' : (msg ? 'err' : ''));
-    }
-
-    // Reservation validation
-    const rForm = document.getElementById('reservationForm');
-    rForm.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const name = rForm.resName, email = rForm.resEmail, date = rForm.resDate, time = rForm.resTime, party = rForm.resParty;
-
-      let valid = true;
-      if(!name.value.trim() || name.value.trim().length < 2){ show(resNameHelp,'Please enter your full name.'); valid=false } else { show(resNameHelp,'Looks good!',true) }
-      if(!email.checkValidity()){ show(resEmailHelp,'Enter a valid email.'); valid=false } else { show(resEmailHelp,'✓',true) }
-      if(!date.value){ show(resDateHelp,'Pick a date.'); valid=false } else { show(resDateHelp,'',true) }
-      if(!time.value){ show(resTimeHelp,'Pick a time.'); valid=false } else { show(resTimeHelp,'',true) }
-      if(!party.value){ show(resPartyHelp,'Select party size.'); valid=false } else { show(resPartyHelp,'',true) }
-
-      if(valid){
-        const summary = `Reservation requested for ${name.value} (${email.value}) on ${date.value} at ${time.value} for ${party.value}.`;
-        show(resStatus, summary + " We’ll confirm by email shortly.", true);
-        rForm.reset();
-        tabs[0].focus(); // gentle UX cue
-      } else {
-        show(resStatus, "Please fix the highlighted fields.");
-      }
-    });
-
-    // Contact validation
-    const cForm = document.getElementById('contactForm');
-    cForm.addEventListener('submit',(e)=>{
-      e.preventDefault();
-      const name = cForm.cName, email = cForm.cEmail, msg = cForm.cMsg;
-      let valid = true;
-      if(!name.value.trim()){ show(cNameHelp,'Your name is required.'); valid=false } else { show(cNameHelp,'',true) }
-      if(!email.checkValidity()){ show(cEmailHelp,'Enter a valid email.'); valid=false } else { show(cEmailHelp,'',true) }
-      if(!msg.value.trim() || msg.value.trim().length < 10){ show(cMsgHelp,'Message must be at least 10 characters.'); valid=false } else { show(cMsgHelp,'',true) }
-      if(valid){
-        show(cStatus, "Thanks! We’ve received your message and will get back soon.", true);
-        cForm.reset();
-      } else {
-        show(cStatus, "Please complete the required fields.");
-      }
     });
   </script>
 </body>
